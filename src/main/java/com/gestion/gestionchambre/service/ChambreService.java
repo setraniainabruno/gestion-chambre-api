@@ -1,18 +1,18 @@
 package com.gestion.gestionchambre.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.gestion.gestionchambre.model.Chambre;
 import com.gestion.gestionchambre.model.ChambreStatus;
-import com.gestion.gestionchambre.model.ChambreType;
 import com.gestion.gestionchambre.repository.ChambreRepository;
 
 @Service
 public class ChambreService {
+
     private final ChambreRepository chambreRepository;
 
     @Autowired
@@ -28,14 +28,25 @@ public class ChambreService {
         return chambreRepository.findById(id);
     }
 
+    public int getCountChambresByStatus(ChambreStatus status) {
+        return chambreRepository.findByStatut(status).size();
+    }
+
+    public List<Chambre> getAvailableChambres() {
+        return chambreRepository.findByStatut(ChambreStatus.Disponible);
+    }
+
     public Chambre createChambre(Chambre chambre) {
+        if (chambre.getStatut().equals(ChambreStatus.Occupée) || chambre.getStatut().equals(ChambreStatus.Réservée)) {
+            chambre.setStatut(ChambreStatus.Disponible);
+        }
         return chambreRepository.save(chambre);
     }
 
     public Chambre updateChambre(String id, Chambre chambreDetails) {
         Chambre chambre = chambreRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Chambre not found with id: " + id));
-        
+
         chambre.setNumero(chambreDetails.getNumero());
         chambre.setType(chambreDetails.getType());
         chambre.setEtage(chambreDetails.getEtage());
@@ -43,7 +54,14 @@ public class ChambreService {
         chambre.setCapacite(chambreDetails.getCapacite());
         chambre.setStatut(chambreDetails.getStatut());
         chambre.setDescription(chambreDetails.getDescription());
-        
+
+        return chambreRepository.save(chambre);
+    }
+
+    public Chambre updateChambreStatus(String id, ChambreStatus statut) {
+        Chambre chambre = chambreRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Chambre not found with id: " + id));
+        chambre.setStatut(statut);
         return chambreRepository.save(chambre);
     }
 
@@ -51,18 +69,4 @@ public class ChambreService {
         chambreRepository.deleteById(id);
     }
 
-    public List<Chambre> getChambresByType(ChambreType type) {
-        return chambreRepository.findByType(type);
-    }
-
-    public List<Chambre> getAvailableChambres() {
-        return chambreRepository.findByStatut(ChambreStatus.AVAILABLE);
-    }
-
-    public Chambre updateChambreStatus(String id, ChambreStatus status) {
-        Chambre chambre = chambreRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Chambre not found with id: " + id));
-        chambre.setStatut(status);
-        return chambreRepository.save(chambre);
-    }
 }

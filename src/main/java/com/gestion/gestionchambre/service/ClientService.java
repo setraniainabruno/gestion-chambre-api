@@ -1,11 +1,11 @@
 package com.gestion.gestionchambre.service;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.gestion.gestionchambre.model.Client;
 import com.gestion.gestionchambre.repository.ClientRepository;
@@ -40,7 +40,6 @@ public class ClientService {
         client.setEmail(clientDetails.getEmail());
         client.setTelephone(clientDetails.getTelephone());
         client.setAdresse(clientDetails.getAdresse());
-        client.setDateNaissance(clientDetails.getDateNaissance());
         client.setNumeroPieceIdentite(clientDetails.getNumeroPieceIdentite());
         client.setTypePieceIdentite(clientDetails.getTypePieceIdentite());
         
@@ -51,11 +50,4 @@ public class ClientService {
         clientRepository.deleteById(id);
     }
 
-    public Client findByEmail(String email) {
-        return clientRepository.findByEmail(email);
-    }
-
-    public List<Client> findByNom(String nom) {
-        return clientRepository.findByNom(nom);
-    }
 }

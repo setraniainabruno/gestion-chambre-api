@@ -2,9 +2,9 @@ package com.gestion.gestionchambre.model;
 
 
 public enum ChambreType {
-    SINGLE,
-    DOUBLE,
-    SUITE,
-    FAMILY,
-    DELUXE
+    Simple,
+    Double,
+    Suite,
+    Familiale,
+    Deluxe
 }

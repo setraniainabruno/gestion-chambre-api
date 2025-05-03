@@ -1,13 +1,18 @@
 package com.gestion.gestionchambre.controller;
 
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
-import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.gestionchambre.model.Reservation;
 import com.gestion.gestionchambre.model.ReservationStatus;
@@ -16,6 +21,7 @@ import com.gestion.gestionchambre.service.ReservationService;
 @RestController
 @RequestMapping("/api/reservations")
 public class ReservationController {
+
     private final ReservationService reservationService;
 
     @Autowired
@@ -26,6 +32,11 @@ public class ReservationController {
     @GetMapping
     public List<Reservation> getAllReservations() {
         return reservationService.getAllReservations();
+    }
+
+    @GetMapping("/count")
+    public int getCountAllReservations() {
+        return reservationService.getCountAllReservations();
     }
 
     @GetMapping("/{id}")
@@ -58,6 +69,16 @@ public class ReservationController {
         }
     }
 
+    @PutMapping("/{id}/statut")
+    public ResponseEntity<Reservation> updateStatusReservation(@PathVariable String id, @RequestParam ReservationStatus statut) {
+        try {
+            Reservation updatedReservation = reservationService.updateStatusReservation(id, statut);
+            return ResponseEntity.ok(updatedReservation);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReservation(@PathVariable String id) {
         reservationService.deleteReservation(id);
@@ -69,15 +90,13 @@ public class ReservationController {
         return reservationService.getReservationsByClient(clientId);
     }
 
+    @GetMapping("/nombre-client/{clientId}")
+    public int getCountReservationsByClient(@PathVariable String clientId) {
+        return reservationService.getCountReservationsByClient(clientId);
+    }
+
     @GetMapping("/status/{status}")
     public List<Reservation> getReservationsByStatus(@PathVariable ReservationStatus status) {
         return reservationService.getReservationsByStatus(status);
-    }
-
-    @GetMapping("/between-dates")
-    public List<Reservation> getReservationsBetweenDates(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date start,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date end) {
-        return reservationService.getReservationsBetweenDates(start, end);
     }
 }

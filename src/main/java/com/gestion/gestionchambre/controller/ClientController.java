@@ -12,6 +12,7 @@ import com.gestion.gestionchambre.service.ClientService;
 @RestController
 @RequestMapping("/api/clients")
 public class ClientController {
+
     private final ClientService clientService;
 
     @Autowired
@@ -50,20 +51,5 @@ public class ClientController {
     public ResponseEntity<Void> deleteClient(@PathVariable String id) {
         clientService.deleteClient(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/search")
-    public List<Client> searchClientsByName(@RequestParam String nom) {
-        return clientService.findByNom(nom);
-    }
-
-    @GetMapping("/email/{email}")
-    public ResponseEntity<Client> getClientByEmail(@PathVariable String email) {
-        Client client = clientService.findByEmail(email);
-        if (client != null) {
-            return ResponseEntity.ok(client);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
     }
 }

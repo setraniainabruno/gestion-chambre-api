@@ -1,20 +1,27 @@
 package com.gestion.gestionchambre.controller;
 
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.gestionchambre.model.Chambre;
 import com.gestion.gestionchambre.model.ChambreStatus;
-import com.gestion.gestionchambre.model.ChambreType;
 import com.gestion.gestionchambre.service.ChambreService;
 
 @RestController
 @RequestMapping("/api/chambres")
 public class ChambreController {
+
     private final ChambreService chambreService;
 
     @Autowired
@@ -55,20 +62,20 @@ public class ChambreController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/type/{type}")
-    public List<Chambre> getChambresByType(@PathVariable ChambreType type) {
-        return chambreService.getChambresByType(type);
-    }
-
-    @GetMapping("/available")
+    @GetMapping("/disponible")
     public List<Chambre> getAvailableChambres() {
         return chambreService.getAvailableChambres();
     }
 
-    @PutMapping("/{id}/status")
-    public ResponseEntity<Chambre> updateChambreStatus(@PathVariable String id, @RequestParam ChambreStatus status) {
+    @GetMapping("/statut/{status}")
+    public int getCountChambresByStatus(@PathVariable ChambreStatus status) {
+        return chambreService.getCountChambresByStatus(status);
+    }
+
+    @PutMapping("/{id}/statut")
+    public ResponseEntity<Chambre> updateChambreStatus(@PathVariable String id, @RequestParam ChambreStatus statut) {
         try {
-            Chambre updatedChambre = chambreService.updateChambreStatus(id, status);
+            Chambre updatedChambre = chambreService.updateChambreStatus(id, statut);
             return ResponseEntity.ok(updatedChambre);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();

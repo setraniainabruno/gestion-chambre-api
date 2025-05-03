@@ -1,8 +1,9 @@
 package com.gestion.gestionchambre.model;
 
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import java.util.Date;
 
 @Document(collection = "clients")
 public class Client {
@@ -14,7 +15,6 @@ public class Client {
     private String email;
     private String telephone;
     private String adresse;
-    private Date dateNaissance;
     private String numeroPieceIdentite;
     private String typePieceIdentite;
     private Date dateCreation;
@@ -71,14 +71,6 @@ public class Client {
 
     public void setAdresse(String adresse) {
         this.adresse = adresse;
-    }
-
-    public Date getDateNaissance() {
-        return dateNaissance;
-    }
-
-    public void setDateNaissance(Date dateNaissance) {
-        this.dateNaissance = dateNaissance;
     }
 
     public String getNumeroPieceIdentite() {
