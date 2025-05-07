@@ -3,7 +3,7 @@ package com.gestion.gestionchambre.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import com.gestion.gestionchambre.model.Chambre;
@@ -22,7 +22,7 @@ public class ReservationService {
     private final ClientRepository clientRepository;
     private final ChambreRepository chambreRepository;
 
-    @Autowired
+    
     public ReservationService(ReservationRepository reservationRepository,
             ClientRepository clientRepository,
             ChambreRepository chambreRepository) {

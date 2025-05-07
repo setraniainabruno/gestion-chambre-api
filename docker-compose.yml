@@ -1,0 +1,11 @@
+services:
+  app:
+    build: .
+    container_name: gestionchambre
+    ports:
+      - "8001:8000"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/gestion-chambre
+
+
+volumes:

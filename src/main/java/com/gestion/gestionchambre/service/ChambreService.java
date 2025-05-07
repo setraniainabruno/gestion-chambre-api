@@ -3,7 +3,7 @@ package com.gestion.gestionchambre.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import com.gestion.gestionchambre.model.Chambre;
@@ -15,7 +15,7 @@ public class ChambreService {
 
     private final ChambreRepository chambreRepository;
 
-    @Autowired
+    
     public ChambreService(ChambreRepository chambreRepository) {
         this.chambreRepository = chambreRepository;
     }
