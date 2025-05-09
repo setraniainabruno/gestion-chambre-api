@@ -1,11 +1,12 @@
+
 services:
   app:
     build: .
-    container_name: gestionchambre
-    ports:
-      - "8001:8000"
+    image: spring-mongo-app:latest
     environment:
-      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/gestion-chambre
-
-
-volumes:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATA_MONGODB_URI=mongodb+srv://brunoharison18:xE2NGihtznNYH9Hv@cluster0.cufza.mongodb.net/gestion-chambre?retryWrites=true&w=majority&appName=Cluster0
+      - SERVER_PORT=8000
+    ports:
+      - "8090:8000"
+    restart: unless-stopped
